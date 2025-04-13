@@ -632,7 +632,8 @@ gint main(gint argc, gchar **argv) {
     // modify buttons style (gtk+ 2)
     inject_gtkrc();
     // set short prompt
-    envv[envc++] = "PS1=[\\W]\\$ ";
+    gchar *ps1_env = g_strdup_printf("PS1=%s", conf->prompt);
+    envv[envc++] = ps1_env;
     // set terminfo path
     envv[envc++] = "TERMINFO=" TERMINFO_PATH;
 #endif
@@ -767,6 +768,10 @@ gint main(gint argc, gchar **argv) {
     
     clean_on_exit(keyboard);
     gtk_widget_destroy(menu);
+#ifdef KINDLE
+    // Free the PS1 environment variable
+    g_free(envv[0]);
+#endif
     D printf("the end\n");
     return 0;
 }

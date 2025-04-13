@@ -67,6 +67,7 @@ KTconf *parse_config(void) {
     snprintf(conf->encoding, sizeof(conf->encoding), "%s", VTE_ENCODING);
     snprintf(conf->kb_conf_path, sizeof(conf->kb_conf_path), "%s", KB_FULL_PATH);
     conf->orientation = 0;
+    snprintf(conf->prompt, sizeof(conf->prompt), "%s", DEFAULT_PROMPT);
     
     FILE *fp;
     if ((fp = fopen(conf_path, "r")) == NULL) {
@@ -113,6 +114,12 @@ KTconf *parse_config(void) {
             snprintf(conf->encoding, sizeof(conf->encoding), "%s", str);
             D printf("encoding = %s\n", conf->encoding);
         }
+        else if (!strncmp(buf, "prompt", 6)) {
+            gchar str[256];
+            sscanf(buf, "prompt = \"%[^\"\n\r]\"", str);
+            snprintf(conf->prompt, sizeof(conf->prompt), "%s", str);
+            D printf("prompt = %s\n", conf->prompt);
+        }        
         else if (!strncmp(buf, "kb_conf_path", 12)) {
             gchar str2[PATH_MAX];
             sscanf(buf, "kb_conf_path = \"%[^\"\n\r]\"", str2); // need double quotes around path

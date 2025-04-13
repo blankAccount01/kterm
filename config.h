@@ -91,6 +91,8 @@
 #define VTE_SCHEME_LIGHT FALSE
 /** Terminal color scheme reversed */
 #define VTE_SCHEME_DARK TRUE
+/* Default Terminal Prompt */
+#define DEFAULT_PROMPT "[\\W]\\$ "
 
 /** Debug */
 extern gboolean debug;
@@ -110,6 +112,7 @@ typedef struct {
     gchar kb_conf_path[PATH_MAX];  /** Keyboard config path */
     gchar orientation;  /** Screen orientation: 'U', 'R' or 'L' */
     gchar orientation_saved;  /** Initial screen orientation: 'U', 'R' or 'L' */
+    gchar prompt[50]; /* Terminal Prompt */
 } KTconf;
 
 KTconf * parse_config(void);
